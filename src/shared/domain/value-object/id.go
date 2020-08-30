@@ -1,4 +1,4 @@
-package domain
+package value_object
 
 import (
 	"fmt"

@@ -1,7 +1,10 @@
 run:
-	cd src/main && go run .
+	cd app/src/main && go run .
 
 build:
-	cd src/main && go build .
+	cd app/src/main && go build .
 test:
 	go test -race ./...
+
+lint:
+	golangci-lint run
