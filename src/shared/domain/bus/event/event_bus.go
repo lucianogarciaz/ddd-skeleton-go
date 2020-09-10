@@ -1,5 +1,5 @@
 package event
 
 type EventBus interface {
-	Publish(events ...DomainEvent)
+	Publish(events ...DomainEvent) error
 }
