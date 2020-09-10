@@ -1,19 +1,19 @@
-package event
+package infrastructure
 
 import (
 	"github.com/lucianogarciaz/ddd-skeleton-go/src/shared/application/errors"
-	"github.com/lucianogarciaz/ddd-skeleton-go/src/shared/domain/bus/event"
+	"github.com/lucianogarciaz/ddd-skeleton-go/src/shared/domain"
 )
 
 type InMemoryEventBus struct {
-	subscribers map[string][]event.DomainEventSubscriber
+	subscribers map[string][]domain.DomainEventSubscriber
 }
 
-func NewInMemoryEventBus(subscribers map[string][]event.DomainEventSubscriber) InMemoryEventBus {
+func NewInMemoryEventBus(subscribers map[string][]domain.DomainEventSubscriber) InMemoryEventBus {
 	return InMemoryEventBus{subscribers}
 }
 
-func (im InMemoryEventBus) Publish(events ...event.DomainEvent) error {
+func (im InMemoryEventBus) Publish(events ...domain.DomainEvent) error {
 	multierror := errors.NewMultiError()
 	for _, e := range events {
 		es, ok := im.subscribers[e.EventName()]

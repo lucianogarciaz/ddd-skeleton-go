@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/lucianogarciaz/ddd-skeleton-go/src/reservations/application"
+	"github.com/lucianogarciaz/ddd-skeleton-go/src/shared/domain"
 
-	"github.com/lucianogarciaz/ddd-skeleton-go/src/shared/domain/bus/command"
+	"github.com/lucianogarciaz/ddd-skeleton-go/src/reservations/application"
 )
 
 type ReservationController struct {
-	commandBus command.CommandBus
+	commandBus domain.CommandBus
 }
 
-func NewReservationController(cmd command.CommandBus) ReservationController {
+func NewReservationController(cmd domain.CommandBus) ReservationController {
 	return ReservationController{
 		commandBus: cmd,
 	}

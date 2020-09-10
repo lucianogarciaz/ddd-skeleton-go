@@ -1,4 +1,4 @@
-package event
+package domain
 
 type EventBus interface {
 	Publish(events ...DomainEvent) error

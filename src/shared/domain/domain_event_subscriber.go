@@ -1,4 +1,4 @@
-package event
+package domain
 
 type DomainEventSubscriber interface {
 	SubscribedTo() []DomainEvent

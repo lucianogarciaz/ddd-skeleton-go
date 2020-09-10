@@ -1,9 +1,11 @@
 package domain
 
-import value_object "github.com/lucianogarciaz/ddd-skeleton-go/src/shared/domain/value-object"
+import (
+	"github.com/lucianogarciaz/ddd-skeleton-go/src/shared/domain"
+)
 
 type ReservationCounter struct {
-	reservationID value_object.ID
+	reservationID domain.ID
 	count         int
 }
 
@@ -11,6 +13,6 @@ func (r ReservationCounter) Count() int {
 	return r.count
 }
 
-func (r ReservationCounter) ReservationID() value_object.ID {
+func (r ReservationCounter) ReservationID() domain.ID {
 	return r.reservationID
 }

@@ -2,12 +2,10 @@ package application
 
 import (
 	"github.com/lucianogarciaz/ddd-skeleton-go/src/reservations/domain"
-	"github.com/lucianogarciaz/ddd-skeleton-go/src/shared/domain/bus/command"
-	"github.com/lucianogarciaz/ddd-skeleton-go/src/shared/domain/bus/event"
-	value_object "github.com/lucianogarciaz/ddd-skeleton-go/src/shared/domain/value-object"
+	domain2 "github.com/lucianogarciaz/ddd-skeleton-go/src/shared/domain"
 )
 
-var _ command.Command = &CreateReservationCommand{}
+var _ domain2.Command = &CreateReservationCommand{}
 
 // CreateReservationCommandName is self-described
 const CreateReservationCommandName = "createReservation"
@@ -41,7 +39,7 @@ func (crc CreateReservationCommand) Barcode() string {
 	return crc.barcode
 }
 
-var _ command.CommandHandler = CreateReservationCommandHandler{}
+var _ domain2.CommandHandler = CreateReservationCommandHandler{}
 
 // CreateReservationCommandHandler is a command handler
 type CreateReservationCommandHandler struct {
@@ -54,21 +52,21 @@ func NewCreateReservationCommandHandler(reservationCreator ReservationCreator) C
 }
 
 // Handle is self-described
-func (r CreateReservationCommandHandler) Handle(cmd command.Command) error {
+func (r CreateReservationCommandHandler) Handle(cmd domain2.Command) error {
 	c, ok := cmd.(CreateReservationCommand)
 	if !ok {
-		return command.ErrInvalidCommand
+		return domain2.ErrInvalidCommand
 	}
 	return r.reservationCreator.Handle(c.Hotel(), c.Barcode())
 }
 
 // ReservationCreator is the implementation of the use case
 type ReservationCreator struct {
-	eventBus event.EventBus
+	eventBus domain2.EventBus
 }
 
 // NewReservationCreator is a constructor
-func NewReservationCreator(eventBus event.EventBus) ReservationCreator {
+func NewReservationCreator(eventBus domain2.EventBus) ReservationCreator {
 	return ReservationCreator{
 		eventBus: eventBus,
 	}
@@ -76,7 +74,7 @@ func NewReservationCreator(eventBus event.EventBus) ReservationCreator {
 
 // Handle is self-described
 func (rc ReservationCreator) Handle(hotel string, barcode string) error {
-	reservation := domain.CreateReservation(value_object.NewID(), hotel, barcode)
+	reservation := domain.CreateReservation(domain2.NewID(), hotel, barcode)
 	rc.eventBus.Publish(reservation.PullDomainEvents()...)
 	return nil
 }
